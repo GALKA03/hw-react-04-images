@@ -33,7 +33,7 @@ export const App = ({largeImageURL}) => {
     setLoading(true)
       fetchImages(search, pageNumber,perPage)
         .then(images => {
-          if (images.total === 0) {
+          if (images.hits.length === 0) {
    return Notiflix.info.failure('No images found. Please submit another query!');    
         }
           setImages(prevImages => [...prevImages, ...images]);
