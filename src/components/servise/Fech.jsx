@@ -8,9 +8,11 @@ return fetch(`https://pixabay.com/api/?q=${nextQuery}&page=${nextNumber}&key=307
       return response.json();
     }
     return Promise.reject(new Error('Invalid request'));
-  });
-        }
-    
+   })
+    // .then(response => response.data)
+       
+        // .then(console.log)
+}
 
 export { fetchImages as default }
 

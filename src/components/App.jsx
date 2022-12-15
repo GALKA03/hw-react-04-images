@@ -11,7 +11,7 @@ import { Modal } from "./Modal/Modal"
 import { Form } from "./Searchbar/Searchbar";
 
 
-export const App = ({largeImageURL}) => {
+export const App = ({ largeImageURL }) => {
   const [images, setImages] = useState([]);
   const [pageNumber, setPageNamber] = useState(1);
   const [error, setError] = useState('');
@@ -20,38 +20,76 @@ export const App = ({largeImageURL}) => {
   const [showModal, setShowModal] = useState(false);
   const [largeImageId, setLargeImageId] = useState(null);
   const [perPage, setPerpage] = useState(12)
+  // const [visible, setIsVisible]=useState(false)
+  const [total, setTotal] = useState(0);
+  
   const hendleSubmit = (search) => {
     setSearch(search);
     setImages([]);
     setPageNamber(1);
-}
+  }
+  //   if (!search) {
+  //     return;
+  //   }
+  //   fetchImages(search, pageNumber)
+  // }, [search, pageNumber])
   useEffect(() => {
-   
-    if (!search) {
-      return;
-    }
-    setLoading(true)
-      fetchImages(search, pageNumber,perPage)
-        .then(images => {
-          if (images.hits.length === 0) {
-   return Notiflix.info.failure('No images found. Please submit another query!');    
+    const fetchImages = (search, pageNumber) => {
+      const perPage = 12;
+      if (!search) return;
+      setLoading(true)
+      fetchImages(search, pageNumber, perPage)
+        .then(({ hits, totalHits, total }) => {
+          const totalPages = Math.ceil(totalHits / perPage);
+          console.log(totalPages)
+          if (hits.length === 0) {
+            return Notiflix.info.failure('No images found. Please submit another query!');
           }
-      //     if (Math.ceil(images.totalHits / images.perPage) <= pageNumber) {
-      //   return loading(false)
-      // }    
-          setImages(prevImages => [...prevImages, ...images.hits]);
+          setImages(prevImages => [...prevImages, ...hits])
           setError('')
         })
         .catch(error => {
-        setError(error);
-        setSearch(false)
+          setError(error);
+          setSearch(false)
         })
-         
-        .finally(() => setLoading(false));
-      
-      
-},[search,pageNumber,perPage])
+        .finally(() => setLoading(false))
+    }
+  })    
 
+
+//  useEffect(() => {
+//     // Отримання фото через "Фетч"
+//     const getPhotos = async (query, page) => {
+//       if (!query) return;
+//       setIsLoading(true);
+//       try {
+//         const { hits, total, totalHits } = await ImageService.getImages(
+//           query,
+//           page
+//         );
+
+//         if (hits.length === 0) {
+//           setIsEmpty(true);
+//           showWarning('Sorry. there are no images ... 😅');
+//           return;
+//         }
+//         setImages(state => [...state, ...hits]);
+//         setIsVisible(page < Math.ceil(total / totalHits));
+//       } catch (error) {
+//         setError(error);
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     };
+//     getPhotos(query, page);
+//   }, [page, query]);
+  
+
+  
+  
+  
+  
+  
 // const findImg = () => {
 //     images.find(image => {
 //        return image.id === largeImageId;
@@ -61,10 +99,6 @@ export const App = ({largeImageURL}) => {
   const openModal = largeImageURL=> {
 setShowModal(true) 
   setLargeImageId(largeImageURL)
-//  images.find(image => {
-//    return image.id === largeImageId;
-   
-   // });
    }
  
  const closeModal = () => {
