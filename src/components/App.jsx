@@ -35,7 +35,10 @@ export const App = ({largeImageURL}) => {
         .then(images => {
           if (images.hits.length === 0) {
    return Notiflix.info.failure('No images found. Please submit another query!');    
-        }
+          }
+      //     if (Math.ceil(images.totalHits / images.perPage) <= pageNumber) {
+      //   return loading(false)
+      // }    
           setImages(prevImages => [...prevImages, ...images.hits]);
           setError('')
         })
@@ -77,11 +80,13 @@ setShowModal(true)
         
       {loading && <Loader />} 
       
-      {images &&
-          <ImageGallery images={images} openModal={openModal} />}
+      {images.length > 0 &&
+        <>
+        <ImageGallery images={images} openModal={openModal} />
+      
         
-          {Math.ceil(images.totalHits / 12) > pageNumber &&
-            < Button text='Load more' clickHandler={onLoadMore} /> } 
+          < Button text='Load more' clickHandler={onLoadMore} />
+        </>}
         
       
       
