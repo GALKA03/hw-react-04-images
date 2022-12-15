@@ -36,7 +36,7 @@ export const App = ({largeImageURL}) => {
           if (images.hits.length === 0) {
    return Notiflix.info.failure('No images found. Please submit another query!');    
         }
-          setImages(prevImages => [...prevImages, ...images]);
+          setImages(prevImages => [...prevImages, ...images.hits]);
           setError('')
         })
         .catch(error => {

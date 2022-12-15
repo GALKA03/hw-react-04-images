@@ -11,13 +11,6 @@ return fetch(`https://pixabay.com/api/?q=${nextQuery}&page=${nextNumber}&key=307
             new Error(`no this name ${nextQuery}`)
         )
         } )
-         //const arr = total.hits
-                .then(images => images.hits)
-                .then('fetch anser',console.log)
-            .catch(error => {
-                this.setState({ error })
-            })
-          //  .finally(() => this.setState({ Loading: false }))
         }
     
 
