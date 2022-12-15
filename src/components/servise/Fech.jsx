@@ -1,8 +1,8 @@
 //import axios from 'axios';
 
 
-export const fetchImages = (nextQuery,nextNumber)=>{
-return fetch(`https://pixabay.com/api/?q=${nextQuery}&page=${nextNumber}&key=30706711-d5d2ff18b6ad5954982c3eaa0&image_type=photo&orientation=horizontal&per_page=12`)
+export const fetchImages = (nextQuery,nextNumber,perPage)=>{
+return fetch(`https://pixabay.com/api/?q=${nextQuery}&page=${nextNumber}&key=30706711-d5d2ff18b6ad5954982c3eaa0&image_type=photo&orientation=horizontal&per_page=${perPage}`)
     .then(response => {
         if (response.ok) {
                 return response.json()

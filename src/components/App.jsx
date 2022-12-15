@@ -14,30 +14,28 @@ import { Form } from "./Searchbar/Searchbar";
 export const App = ({largeImageURL}) => {
   const [images, setImages] = useState([]);
   const [pageNumber, setPageNamber] = useState(1);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [largeImageId, setLargeImageId] = useState(null);
-   
+  const [perPage, setPerpage] = useState(12)
   const hendleSubmit = (search) => {
     setSearch(search);
     setImages([]);
     setPageNamber(1);
 }
   useEffect(() => {
+   
     if (!search) {
       return;
     }
-    
     setLoading(true)
-      fetchImages(search, pageNumber)
+      fetchImages(search, pageNumber,perPage)
         .then(images => {
-if (images.hits === []) {
-      Notiflix.Notify.failure('No images found. Please submit another query!');    
-    return;
+          if (images.total === 0) {
+   return Notiflix.info.failure('No images found. Please submit another query!');    
         }
-    
           setImages(prevImages => [...prevImages, ...images]);
           setError('')
         })
@@ -49,7 +47,7 @@ if (images.hits === []) {
         .finally(() => setLoading(false));
       
       
-},[search,pageNumber])
+},[search,pageNumber,perPage])
 
 // const findImg = () => {
 //     images.find(image => {
@@ -77,13 +75,16 @@ setShowModal(true)
         <>
           <Form onSubmit={hendleSubmit} /> 
         
-           {loading && <Loader />} 
-           {images.length > 0 &&(
-          <>
-          <ImageGallery images={images} openModal={openModal} />
-               <Button text='Load more' clickHandler={onLoadMore} />
-            </>
-        )}   
+      {loading && <Loader />} 
+      
+      {images &&
+          <ImageGallery images={images} openModal={openModal} />}
+        
+          {Math.ceil(images.totalHits / 12) > pageNumber &&
+            < Button text='Load more' clickHandler={onLoadMore} /> } 
+        
+      
+      
           { showModal  && <Modal largeImageURL={largeImageURL} onClose={closeModal}>
            <img src={largeImageId} alt="text" />
            </Modal >}
