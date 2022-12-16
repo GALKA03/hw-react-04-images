@@ -19,7 +19,6 @@ export const App = ({ largeImageURL }) => {
   const [search, setSearch] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [largeImageId, setLargeImageId] = useState(null);
-  // const [perPage, setPerpage] = useState(12)
   const [total, setTotal] = useState(0);
   
   const hendleSubmit = (search) => {
@@ -78,10 +77,10 @@ setShowModal(true)
     setPageNamber(prevNumber => prevNumber  + 1
     )
   }
-  const loadImages = setImages.length !== 0;
- // console.log('loadImages',loadImages)
+  const loadImages = images.length !== 0;
+ console.log('loadImages',loadImages)
   const isLastPage = images.length === total;
-  //console.log('isLastPage',isLastPage)
+  console.log('isLastPage',isLastPage)
   const loadMoreBtn = loadImages && !loading && !isLastPage;
   console.log('loadMoreBtn',loadMoreBtn)
   return (
