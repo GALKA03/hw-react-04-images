@@ -43,7 +43,6 @@ export const App = ({ largeImageURL }) => {
       .then(({ hits, totalHits, total } ) => {
           const totalPages = Math.ceil(totalHits / perPage);
         console.log('hits', hits)
-      
           if (hits.length === 0) {
             Notiflix.Notify.info('No images found. Please submit another query!');
           }
@@ -81,7 +80,7 @@ setShowModal(true)
  console.log('loadImages',loadImages)
   const isLastPage = images.length === total;
   console.log('isLastPage',isLastPage)
-  const loadMoreBtn = loadImages && !loading && !isLastPage;
+  const loadMoreBtn =  !loading && !isLastPage;
   console.log('loadMoreBtn',loadMoreBtn)
   return (
         <>
