@@ -54,14 +54,7 @@ export const App = ({ largeImageURL }) => {
          if (pageNumber === 1) {
           Notiflix.info.failure(`Hooray! We found ${totalHits} images.`);
          }
-      //  const data = hits.map(({ id, webformatURL, largeImageURL, tags }) => {
-      //     return {
-      //       id,
-      //       webformatURL,
-      //       largeImageURL,
-      //       tags,
-      //     };
-      //   });
+        
           setImages(prevImages => [...prevImages, ...hits])
            setTotal(totalHits);
         setError('')
