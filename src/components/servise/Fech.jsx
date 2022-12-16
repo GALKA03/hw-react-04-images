@@ -10,8 +10,8 @@ export const fetchImages = (nextQuery,nextNumber,perPage)=>{
       return Promise.reject(new Error('Invalid request'));
     })
    // .then(response => response.data)
-       
-        // .then(console.log)
+     
+  
 }
 
 export { fetchImages as default }

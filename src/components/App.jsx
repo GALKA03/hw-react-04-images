@@ -39,22 +39,21 @@ export const App = ({ largeImageURL }) => {
   const fetchData = (search, pageNumber) => {
     const perPage = 12;
     setLoading(true)
- 
 
     fetchImages(search, pageNumber, perPage)
-      .then(({ hits, totalHits,total } ) => {
+      .then(({ hits, totalHits, total } ) => {
           const totalPages = Math.ceil(totalHits / perPage);
-        console.log('hits',hits)
+        console.log('hits', hits)
+      
           if (hits.length === 0) {
-            return Notiflix.info.failure('No images found. Please submit another query!');
+            Notiflix.Notify.info('No images found. Please submit another query!');
           }
            if (pageNumber === totalPages) {
-         Notiflix.info.failure("You've reached the end of search results.");
+         Notiflix.Notify.info("You've reached the end of search results.");
            }
          if (pageNumber === 1) {
-          Notiflix.info.failure(`Hooray! We found ${totalHits} images.`);
+          Notiflix.Notify.info(`Hooray! We found ${totalHits} images.`);
          }
-        
           setImages(prevImages => [...prevImages, ...hits])
            setTotal(totalHits);
         setError('')
@@ -79,15 +78,16 @@ setShowModal(true)
     setPageNamber(prevNumber => prevNumber  + 1
     )
   }
-  const loadImages = images.length < 0;
-  console.log('images',images)
+  const loadImages = setImages.length !== 0;
+ // console.log('loadImages',loadImages)
   const isLastPage = images.length === total;
+  //console.log('isLastPage',isLastPage)
   const loadMoreBtn = loadImages && !loading && !isLastPage;
-  
+  console.log('loadMoreBtn',loadMoreBtn)
   return (
         <>
           <Form onSubmit={hendleSubmit} /> 
-        
+        {error && Notiflix.Notify.warning(error.message)}
       {loading && <Loader />} 
         
       { loadImages && <ImageGallery images={images} openModal={openModal} />}
