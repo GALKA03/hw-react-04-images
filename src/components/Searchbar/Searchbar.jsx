@@ -13,9 +13,7 @@ export  const Form = ({onSubmit}) => {
            Notiflix.Notify.failure('Please, enter necessary information!')
           return   
         }
-//         if (serch.hits === []) {
-//        Notiflix.Notify.failure('No images found. Please submit another query!');    
-//    return;        }
+     
         onSubmit(serch);
 
         setSerch('');

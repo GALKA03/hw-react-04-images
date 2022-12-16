@@ -2,14 +2,14 @@
 
 
 export const fetchImages = (nextQuery,nextNumber,perPage)=>{
-return fetch(`https://pixabay.com/api/?q=${nextQuery}&page=${nextNumber}&key=30706711-d5d2ff18b6ad5954982c3eaa0&image_type=photo&orientation=horizontal&per_page=${perPage}`)
-   .then(response => {
-    if (response.ok) {
-      return response.json();
-    }
-    return Promise.reject(new Error('Invalid request'));
-   })
-    // .then(response => response.data)
+  return fetch(`https://pixabay.com/api/?q=${nextQuery}&page=${nextNumber}&key=30706711-d5d2ff18b6ad5954982c3eaa0&image_type=photo&orientation=horizontal&per_page=${perPage}`)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      return Promise.reject(new Error('Invalid request'));
+    })
+   // .then(response => response.data)
        
         // .then(console.log)
 }

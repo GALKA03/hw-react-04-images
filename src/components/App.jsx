@@ -19,8 +19,7 @@ export const App = ({ largeImageURL }) => {
   const [search, setSearch] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [largeImageId, setLargeImageId] = useState(null);
-  const [perPage, setPerpage] = useState(12)
-  // const [visible, setIsVisible]=useState(false)
+  // const [perPage, setPerpage] = useState(12)
   const [total, setTotal] = useState(0);
   
   const hendleSubmit = (search) => {
@@ -28,25 +27,44 @@ export const App = ({ largeImageURL }) => {
     setImages([]);
     setPageNamber(1);
   }
-  //   if (!search) {
-  //     return;
-  //   }
-  //   fetchImages(search, pageNumber)
-  // }, [search, pageNumber])
-  useEffect(() => {
-    const fetchImages = (search, pageNumber) => {
-      const perPage = 12;
-      if (!search) return;
-      setLoading(true)
-      fetchImages(search, pageNumber, perPage)
-        .then(({ hits, totalHits, total }) => {
+
+  useEffect(() => {   
+ if
+    (!search) {
+    return;
+  }
+  fetchData(search, pageNumber)
+  }, [search, pageNumber]);
+  
+  const fetchData = (search, pageNumber) => {
+    const perPage = 12;
+    setLoading(true)
+ 
+
+    fetchImages(search, pageNumber, perPage)
+      .then(({ hits, totalHits,total } ) => {
           const totalPages = Math.ceil(totalHits / perPage);
-          console.log(totalPages)
+        console.log('hits',hits)
           if (hits.length === 0) {
             return Notiflix.info.failure('No images found. Please submit another query!');
           }
+           if (pageNumber === totalPages) {
+         Notiflix.info.failure("You've reached the end of search results.");
+           }
+         if (pageNumber === 1) {
+          Notiflix.info.failure(`Hooray! We found ${totalHits} images.`);
+         }
+      //  const data = hits.map(({ id, webformatURL, largeImageURL, tags }) => {
+      //     return {
+      //       id,
+      //       webformatURL,
+      //       largeImageURL,
+      //       tags,
+      //     };
+      //   });
           setImages(prevImages => [...prevImages, ...hits])
-          setError('')
+           setTotal(totalHits);
+        setError('')
         })
         .catch(error => {
           setError(error);
@@ -54,47 +72,7 @@ export const App = ({ largeImageURL }) => {
         })
         .finally(() => setLoading(false))
     }
-  })    
 
-
-//  useEffect(() => {
-//     // Отримання фото через "Фетч"
-//     const getPhotos = async (query, page) => {
-//       if (!query) return;
-//       setIsLoading(true);
-//       try {
-//         const { hits, total, totalHits } = await ImageService.getImages(
-//           query,
-//           page
-//         );
-
-//         if (hits.length === 0) {
-//           setIsEmpty(true);
-//           showWarning('Sorry. there are no images ... 😅');
-//           return;
-//         }
-//         setImages(state => [...state, ...hits]);
-//         setIsVisible(page < Math.ceil(total / totalHits));
-//       } catch (error) {
-//         setError(error);
-//       } finally {
-//         setIsLoading(false);
-//       }
-//     };
-//     getPhotos(query, page);
-//   }, [page, query]);
-  
-
-  
-  
-  
-  
-  
-// const findImg = () => {
-//     images.find(image => {
-//        return image.id === largeImageId;
-//     });
-//   }
 
   const openModal = largeImageURL=> {
 setShowModal(true) 
@@ -106,24 +84,24 @@ setShowModal(true)
  };
   const onLoadMore = () => {
     setPageNamber(prevNumber => prevNumber  + 1
-   ) }
+    )
+  }
+  const loadImages = images.length < 0;
+  console.log('images',images)
+  const isLastPage = images.length === total;
+  const loadMoreBtn = loadImages && !loading && !isLastPage;
   
   return (
         <>
           <Form onSubmit={hendleSubmit} /> 
         
       {loading && <Loader />} 
-      
-      {images.length > 0 &&
-        <>
-        <ImageGallery images={images} openModal={openModal} />
+        
+      { loadImages && <ImageGallery images={images} openModal={openModal} />}
       
         
-          < Button text='Load more' clickHandler={onLoadMore} />
-        </>}
-        
-      
-      
+      {loadMoreBtn && < Button text='Load more' clickHandler={onLoadMore} />}
+       
           { showModal  && <Modal largeImageURL={largeImageURL} onClose={closeModal}>
            <img src={largeImageId} alt="text" />
            </Modal >}
