@@ -42,7 +42,6 @@ export const App = ({ largeImageURL }) => {
     fetchImages(search, pageNumber, perPage)
       .then(({ hits, totalHits, total } ) => {
           const totalPages = Math.ceil(totalHits / perPage);
-        console.log('hits', hits)
           if (hits.length === 0) {
             Notiflix.Notify.info('No images found. Please submit another query!');
           return
@@ -78,11 +77,11 @@ setShowModal(true)
     )
   }
   const loadImages = images.length !== 0;
- console.log('loadImages',loadImages)
+ //console.log('loadImages',loadImages)
   const isLastPage = images.length === total;
-  console.log('isLastPage',isLastPage)
+  //console.log('isLastPage',isLastPage)
   const loadMoreBtn =loadImages &&  !loading && !isLastPage;
-  console.log('loadMoreBtn',loadMoreBtn)
+  //console.log('loadMoreBtn',loadMoreBtn)
   return (
         <>
           <Form onSubmit={hendleSubmit} /> 

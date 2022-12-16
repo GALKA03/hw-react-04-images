@@ -24,8 +24,6 @@ export const Modal=({ children,onClose})=>{
      
     }
 
-
-
     //const { children} = this.props;
     
       return( 
